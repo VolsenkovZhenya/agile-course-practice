@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Optimalportfolio;
 
+package ru.unn.agile.Optimalportfolio.Model;
 
 public class Portfolio {
-
     final private float[][] incomes;
     final private float[] share;
     private float efficiency;
@@ -22,10 +16,8 @@ public class Portfolio {
         isEmpty = true;
         id = 0;
     }
-
     public Portfolio(final float[] share, final float[][] incomes, int id) {
-        if(share != null && incomes != null)
-        {
+        if (share != null && incomes != null) {
             this.incomes = incomes;
             this.share = share;
             this.id = id;
@@ -33,8 +25,7 @@ public class Portfolio {
             risk = 0.0f;
             isEmpty = false;
             FindRiskAndEfficiency();
-        }
-        else{
+        } else {
             this.incomes = null;
             this.share = null;
             efficiency = 0.0f;
@@ -44,11 +35,9 @@ public class Portfolio {
         }
 
     }
-       
     public boolean IsEmpty() {
         return isEmpty;
     }
-        
     private void FindRiskAndEfficiency() {
         float[] midIncomes = new float[incomes.length];
         float summOfIncomes;
@@ -62,14 +51,12 @@ public class Portfolio {
         FindEfficiency(midIncomes);
         FindRisk(midIncomes);
     }
-
     private void FindEfficiency(float[] midIncomes) {
         for (int i = 0; i < incomes.length; i++) {
             efficiency += share[i] * midIncomes[i];
         }
     }
-
-    private float FindCovariationBeetwenIncomes(float[] midIncomes, int incomeOfFirstDocument, int incomeOfSecondDocument) {
+    private  float FindCovariationBeetwenIncomes(float[] midIncomes, int incomeOfFirstDocument, int incomeOfSecondDocument) {
         float Covariation = 0;
         for (int i = 0; i < incomes[incomeOfFirstDocument].length; i++) {
             Covariation += incomes[incomeOfFirstDocument][i] * incomes[incomeOfSecondDocument][i];
@@ -78,7 +65,6 @@ public class Portfolio {
         Covariation += -midIncomes[incomeOfFirstDocument] * midIncomes[incomeOfSecondDocument];
         return Covariation;
     }
-
     private void FindRisk(float[] midIncomes) {
         for (int i = 0; i < share.length; i++) {
             risk += share[i] * share[i] * FindCovariationBeetwenIncomes(midIncomes, i, i);
@@ -90,7 +76,6 @@ public class Portfolio {
     public float GetEfficiency() {
         return efficiency;
     }
-    
     public int GetId()
     {
         return id;
@@ -98,7 +83,4 @@ public class Portfolio {
     public float GetRisk() {
         return risk;
     }
-
-
-
 }
