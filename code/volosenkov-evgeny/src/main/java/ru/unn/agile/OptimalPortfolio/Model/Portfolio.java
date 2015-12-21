@@ -5,10 +5,7 @@
  */
 package Optimalportfolio;
 
-/**
- *
- * @author Жентос
- */
+
 public class Portfolio {
 
     final private float[][] incomes;
