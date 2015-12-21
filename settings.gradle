@@ -282,7 +282,9 @@ project(":code/vodopyanov-dmitry/ViewModel").name = "vodopyanov-dmitry-ViewModel
 include "code/vodopyanov-dmitry/View"
 project(":code/vodopyanov-dmitry/View").name = "vodopyanov-dmitry-View"
 
-// Volosenkov Evgenij
+// Volosenkov Evgeny
+include "code/volosenkov-evgeny"
+project(":code/volosenkov-evgeny").name = "volosenkov-evgeny"
 
 // Voronkov Arsenij
 include "code/voronkov-arseny/Model"
