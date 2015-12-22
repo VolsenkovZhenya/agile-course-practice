@@ -1,13 +1,13 @@
 
-package ru.unn.agile.Optimalportfolio.Model;
+package ru.unn.agile.OptimalPortfolio.Model;
 
 public class Portfolio {
-    final private float[][] incomes;
-    final private float[] share;
+    private final float[][] incomes;
+    private final float[] share;
     private float efficiency;
     private float risk;
-    final private boolean isEmpty;
-    private int id;
+    private final boolean isEmpty;
+    private  int id;
     public Portfolio() {
         incomes = null;
         share = null;
@@ -16,30 +16,39 @@ public class Portfolio {
         isEmpty = true;
         id = 0;
     }
-    public Portfolio(final float[] share, final float[][] incomes, int id) {
-        if (share != null && incomes != null) {
-            this.incomes = incomes;
-            this.share = share;
-            this.id = id;
-            efficiency = 0.0f;
-            risk = 0.0f;
-            isEmpty = false;
-            FindRiskAndEfficiency();
-        } else {
+    public Portfolio(final float[] share, final float[][] incomes, final int id) {
+        if (share == null || incomes == null) {
             this.incomes = null;
             this.share = null;
             efficiency = 0.0f;
             risk = 0.0f;
-            id = 0;
+            this.id = 0;
             isEmpty = true;
+            return;
         }
+        this.incomes = incomes;
+        this.share = share;
+        this.id = id;
+        efficiency = 0.0f;
+        risk = 0.0f;
+        isEmpty = false;
+        findRiskAndEfficiency();
 
     }
-    public boolean IsEmpty() {
+    public boolean isEmpty() {
         return isEmpty;
     }
-    private void FindRiskAndEfficiency() {
-        float[] midIncomes = new float[incomes.length];
+    public float getEfficiency() {
+        return efficiency;
+    }
+    public int getId() {
+        return id;
+    }
+    public float getRisk() {
+        return risk;
+    }
+    private void findRiskAndEfficiency() {
+        final float[] midIncomes = new float[incomes.length];
         float summOfIncomes;
         for (int i = 0; i < incomes.length; i++) {
             summOfIncomes = 0.0f;
@@ -48,39 +57,31 @@ public class Portfolio {
             }
             midIncomes[i] = summOfIncomes / incomes[i].length;
         }
-        FindEfficiency(midIncomes);
-        FindRisk(midIncomes);
+        findEfficiency(midIncomes);
+        findRisk(midIncomes);
     }
-    private void FindEfficiency(float[] midIncomes) {
+    private void findEfficiency(final float[] midIncomes) {
         for (int i = 0; i < incomes.length; i++) {
             efficiency += share[i] * midIncomes[i];
         }
     }
-    private  float FindCovariationBeetwenIncomes(float[] midIncomes, int incomeOfFirstDocument, int incomeOfSecondDocument) {
-        float Covariation = 0;
+    private  float findCovariationBeetwenIncomes(final float[] midIncomes,
+             final int incomeOfFirstDocument, final int incomeOfSecondDocument) {
+        float covariation = 0;
         for (int i = 0; i < incomes[incomeOfFirstDocument].length; i++) {
-            Covariation += incomes[incomeOfFirstDocument][i] * incomes[incomeOfSecondDocument][i];
+            covariation += incomes[incomeOfFirstDocument][i] * incomes[incomeOfSecondDocument][i];
         }
-        Covariation /= incomes[incomeOfFirstDocument].length;
-        Covariation += -midIncomes[incomeOfFirstDocument] * midIncomes[incomeOfSecondDocument];
-        return Covariation;
+        covariation /= incomes[incomeOfFirstDocument].length;
+        covariation += -midIncomes[incomeOfFirstDocument] * midIncomes[incomeOfSecondDocument];
+        return covariation;
     }
-    private void FindRisk(float[] midIncomes) {
+    private void findRisk(final float[] midIncomes) {
         for (int i = 0; i < share.length; i++) {
-            risk += share[i] * share[i] * FindCovariationBeetwenIncomes(midIncomes, i, i);
+            risk += share[i] * share[i] * findCovariationBeetwenIncomes(midIncomes, i, i);
             for (int j = i + 1; j < share.length; j++) {
-                risk += 2 * share[i] * share[j] * FindCovariationBeetwenIncomes(midIncomes, i, j);
+                risk += 2 * share[i] * share[j] * findCovariationBeetwenIncomes(midIncomes, i, j);
             }
         }
     }
-    public float GetEfficiency() {
-        return efficiency;
-    }
-    public int GetId()
-    {
-        return id;
-    }
-    public float GetRisk() {
-        return risk;
-    }
+
 }
