@@ -35,6 +35,23 @@ public class Portfolio {
         findRiskAndEfficiency();
 
     }
+    public Portfolio(final float[] share, final float[][] incomes) {
+        if (share == null || incomes == null) {
+            this.incomes = null;
+            this.share = null;
+            efficiency = 0.0f;
+            risk = 0.0f;
+            isEmpty = true;
+            return;
+        }
+        this.incomes = incomes;
+        this.share = share;
+        efficiency = 0.0f;
+        risk = 0.0f;
+        isEmpty = false;
+        findRiskAndEfficiency();
+
+    }
     public boolean isEmpty() {
         return isEmpty;
     }

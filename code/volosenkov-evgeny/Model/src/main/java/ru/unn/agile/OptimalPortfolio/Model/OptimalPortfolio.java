@@ -6,6 +6,7 @@ public final class OptimalPortfolio {
     private static final int EQUIVALENCE_PORTFOLIOS = 0;
     private static final int FIRST_PORTFOLIO_DOMINATE = 1;
     private static final int SECOND_PORTFOLIO_DOMINATE = -1;
+    private static final int BOTH_PORTFOLIOS_NOT_EMPTY = -2;
     private static final float DELTA = 0.001f;
     public static ArrayList<Portfolio> getOptimalPortfolio(final ArrayList<Portfolio> portfolios)
             throws Exception {
@@ -27,21 +28,44 @@ public final class OptimalPortfolio {
         return arrayIdOfOptimalPortfolios;
     }
     public static int getRatioOfDominationParreto(final Portfolio first, final Portfolio second) {
-        boolean riskEquality = Math.abs(first.getRisk() - second.getRisk()) < DELTA;
-        boolean efficiencyEquality = Math.abs(first.getEfficiency()
-                - second.getEfficiency()) < DELTA;
-        boolean dominationRiskFirstPortfolio = (second.getRisk() - first.getRisk()) >= DELTA;
-        boolean dominationEfficiencyFirstPortfolio = (first.getEfficiency()
-                - second.getEfficiency()) >= DELTA;
+
+        int ratioWithEmptyPorfolios = getRatioWithEmptyPortfolios(first, second);
+        if (ratioWithEmptyPorfolios == BOTH_PORTFOLIOS_NOT_EMPTY) {
+            return getRatioWhenNoEmptyPortfolios(first, second);
+        }
+        return ratioWithEmptyPorfolios;
+    }
+    private static int getRatioWithEmptyPortfolios(final Portfolio first, final Portfolio second) {
+        boolean firstIsEmpty = first.isEmpty();
+        boolean secondIsEmpty = second.isEmpty();
+        if (firstIsEmpty && secondIsEmpty) {
+            return EQUIVALENCE_PORTFOLIOS;
+        }
+        if (firstIsEmpty) {
+            return SECOND_PORTFOLIO_DOMINATE;
+        }
+        if (secondIsEmpty) {
+            return FIRST_PORTFOLIO_DOMINATE;
+        }
+        return BOTH_PORTFOLIOS_NOT_EMPTY;
+    }
+    private static int getRatioWhenNoEmptyPortfolios(final Portfolio first,
+                                                     final Portfolio second) {
+        float differenceRisk = first.getRisk() - second.getRisk();
+        float differenceEfficiency = first.getEfficiency() - second.getEfficiency();
+        boolean riskEquality = Math.abs(differenceRisk) < DELTA;
+        boolean efficiencyEquality = Math.abs(differenceEfficiency) < DELTA;
+        boolean dominationRiskFirstPortfolio = -differenceRisk >= DELTA;
+        boolean dominationEfficiencyFirstPortfolio = differenceEfficiency >= DELTA;
         if (dominationRiskFirstPortfolio && !dominationEfficiencyFirstPortfolio
-            && !efficiencyEquality || riskEquality && efficiencyEquality
-            || !dominationRiskFirstPortfolio && !riskEquality
-            && dominationEfficiencyFirstPortfolio) {
+                && !efficiencyEquality || riskEquality && efficiencyEquality
+                || !dominationRiskFirstPortfolio && !riskEquality
+                && dominationEfficiencyFirstPortfolio) {
             return EQUIVALENCE_PORTFOLIOS;
         }
         if (dominationRiskFirstPortfolio && dominationEfficiencyFirstPortfolio
-            || dominationRiskFirstPortfolio && efficiencyEquality
-            || riskEquality && dominationEfficiencyFirstPortfolio) {
+                || dominationRiskFirstPortfolio && efficiencyEquality
+                || riskEquality && dominationEfficiencyFirstPortfolio) {
             return FIRST_PORTFOLIO_DOMINATE;
         }
         return SECOND_PORTFOLIO_DOMINATE;
@@ -52,9 +76,8 @@ public final class OptimalPortfolio {
         for (int i = 0; i < portfolios.size(); i++) {
             if (portfolios.get(i).isEmpty()) {
                 continue;
-            } else {
-                allPortfoliosAreEmpty = false;
             }
+            allPortfoliosAreEmpty = false;
             if (optimumPortfolios.isEmpty()) {
                 optimumPortfolios.add(portfolios.get(i));
                 continue;
