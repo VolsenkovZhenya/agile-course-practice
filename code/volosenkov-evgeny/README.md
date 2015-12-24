@@ -7,10 +7,10 @@
 
 ## Задание
 
-Разработать программу, которая находит оптимальные портфели
+Разработать программу, которая находит оптимальные портфели.
 
 Все необходимые сведения можно найти в статье
-["Оптимальные портфели"] на сайте Finansmat.ru.
+[Optymal_Portfolios] на сайте Finansmat.ru.
 
 ## Документация разработчика
 
@@ -18,4 +18,4 @@ TBD
 
 <!-- LINKS -->
 
-[Оптимальные портфели]: http://finansmat.ru/index.php?option=content&task=view&id=51
+[Optymal_Portfolios]: http://finansmat.ru/index.php?option=content&task=view&id=51
