@@ -3,23 +3,23 @@ package ru.unn.agile.OptimalPortfolio.Model;
 
 public class Portfolio {
     private final float[][] incomes;
-    private final float[] share;
+    private final float[] shares;
     private float efficiency;
     private float risk;
     private final boolean isEmpty;
     private  int id;
     public Portfolio() {
         incomes = null;
-        share = null;
+        shares = null;
         efficiency = 0.0f;
         risk = 0.0f;
         isEmpty = true;
         id = 0;
     }
-    public Portfolio(final float[] share, final float[][] incomes, final int id) {
-        if (share == null || incomes == null) {
+    public Portfolio(final float[] shares, final float[][] incomes, final int id) {
+        if (shares == null || incomes == null) {
             this.incomes = null;
-            this.share = null;
+            this.shares = null;
             efficiency = 0.0f;
             risk = 0.0f;
             this.id = 0;
@@ -27,7 +27,7 @@ public class Portfolio {
             return;
         }
         this.incomes = incomes;
-        this.share = share;
+        this.shares = shares;
         this.id = id;
         efficiency = 0.0f;
         risk = 0.0f;
@@ -35,17 +35,17 @@ public class Portfolio {
         findRiskAndEfficiency();
 
     }
-    public Portfolio(final float[] share, final float[][] incomes) {
-        if (share == null || incomes == null) {
+    public Portfolio(final float[] shares, final float[][] incomes) {
+        if (shares == null || incomes == null) {
             this.incomes = null;
-            this.share = null;
+            this.shares = null;
             efficiency = 0.0f;
             risk = 0.0f;
             isEmpty = true;
             return;
         }
         this.incomes = incomes;
-        this.share = share;
+        this.shares = shares;
         efficiency = 0.0f;
         risk = 0.0f;
         isEmpty = false;
@@ -79,24 +79,24 @@ public class Portfolio {
     }
     private void findEfficiency(final float[] midIncomes) {
         for (int i = 0; i < incomes.length; i++) {
-            efficiency += share[i] * midIncomes[i];
+            efficiency += shares[i] * midIncomes[i];
         }
     }
     private  float findCovariationBeetwenIncomes(final float[] midIncomes,
-             final int incomeOfFirstDocument, final int incomeOfSecondDocument) {
+             final int indexFirstDocument, final int indexSecondDocument) {
         float covariation = 0;
-        for (int i = 0; i < incomes[incomeOfFirstDocument].length; i++) {
-            covariation += incomes[incomeOfFirstDocument][i] * incomes[incomeOfSecondDocument][i];
+        for (int i = 0; i < incomes[indexFirstDocument].length; i++) {
+            covariation += incomes[indexFirstDocument][i] * incomes[indexSecondDocument][i];
         }
-        covariation /= incomes[incomeOfFirstDocument].length;
-        covariation += -midIncomes[incomeOfFirstDocument] * midIncomes[incomeOfSecondDocument];
+        covariation /= incomes[indexFirstDocument].length;
+        covariation += -midIncomes[indexFirstDocument] * midIncomes[indexSecondDocument];
         return covariation;
     }
     private void findRisk(final float[] midIncomes) {
-        for (int i = 0; i < share.length; i++) {
-            risk += share[i] * share[i] * findCovariationBeetwenIncomes(midIncomes, i, i);
-            for (int j = i + 1; j < share.length; j++) {
-                risk += 2 * share[i] * share[j] * findCovariationBeetwenIncomes(midIncomes, i, j);
+        for (int i = 0; i < shares.length; i++) {
+            risk += shares[i] * shares[i] * findCovariationBeetwenIncomes(midIncomes, i, i);
+            for (int j = i + 1; j < shares.length; j++) {
+                risk += 2 * shares[i] * shares[j] * findCovariationBeetwenIncomes(midIncomes, i, j);
             }
         }
     }

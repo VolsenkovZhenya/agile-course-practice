@@ -8,13 +8,13 @@ public final class OptimalPortfolio {
     private static final int SECOND_PORTFOLIO_DOMINATE = -1;
     private static final int BOTH_PORTFOLIOS_NOT_EMPTY = -2;
     private static final float DELTA = 0.001f;
-    public static ArrayList<Portfolio> getOptimalPortfolio(final ArrayList<Portfolio> portfolios)
+    public static ArrayList<Portfolio> getOptimalPortfolios(final ArrayList<Portfolio> portfolios)
             throws Exception {
         if (portfolios == null || portfolios.isEmpty()) {
            throw new Exception("No Portfolios");
         }
         final ArrayList<Portfolio> optimumPortfolios = new ArrayList<Portfolio>();
-        if (findOptimalPortfolioParreto(portfolios, optimumPortfolios)) {
+        if (findOptimalPortfoliosParreto(portfolios, optimumPortfolios)) {
             throw new Exception("All Portfolios are empty");
         }
         return optimumPortfolios;
@@ -70,7 +70,7 @@ public final class OptimalPortfolio {
         }
         return SECOND_PORTFOLIO_DOMINATE;
     }
-    private static boolean findOptimalPortfolioParreto(final ArrayList<Portfolio> portfolios,
+    private static boolean findOptimalPortfoliosParreto(final ArrayList<Portfolio> portfolios,
                            final ArrayList<Portfolio> optimumPortfolios) {
         boolean allPortfoliosAreEmpty = true;
         for (int i = 0; i < portfolios.size(); i++) {

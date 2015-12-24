@@ -123,15 +123,15 @@ public class OptimalPortfolioTest {
 
         private static void addPortfolioInList(final ArrayList<Portfolio> portfolios,
                                                final int idPortfolio) {
-            float [] share = new float [10];
+            float [] shares = new float [10];
             float [][] incomes = new float [10][10];
             for (int i = 0; i < 10; i++) {
-                share[i] = 0.1f;
+                shares[i] = 0.1f;
                 for (int j = 0; j < 10; j++) {
                     incomes[i][j] = (float) (i + j + i * j + idPortfolio) / 1000.0f;
                 }
             }
-            portfolios.add(new Portfolio(share, incomes, idPortfolio));
+            portfolios.add(new Portfolio(shares, incomes, idPortfolio));
         }
 
         private static int[] getCorrectResultWhenManyPortfolios() {
@@ -145,7 +145,7 @@ public class OptimalPortfolioTest {
                 final ArrayList<Portfolio> portfolios) {
             try {
                 return OptimalPortfolio.getArrayIdOptimumPortfolios(
-                        OptimalPortfolio.getOptimalPortfolio(portfolios));
+                        OptimalPortfolio.getOptimalPortfolios(portfolios));
             } catch (Exception ex) {
                 return null;
             }
@@ -179,15 +179,15 @@ public class OptimalPortfolioTest {
         }
 
         private  Portfolio arrangePortfolioWhenItNoEmpty() {
-            float[] share = {0.5f};
+            float[] shares = {0.5f};
             float [][] incomes =  {{0.11f}};
-            return new Portfolio(share, incomes, 0);
+            return new Portfolio(shares, incomes, 0);
         }
 
         private Portfolio arrangePortfolioWhenFindEfficiency() {
-            float[] share = {0.5f, 0.5f};
+            float[] shares = {0.5f, 0.5f};
             float [][] incomes =  {{0.11f, 0.13f}, {0.15f, 0.09f}};
-            return new Portfolio(share, incomes, 256);
+            return new Portfolio(shares, incomes, 256);
         }
 
 
@@ -211,7 +211,7 @@ public class OptimalPortfolioTest {
 
         private String getExceptionMessage(final ArrayList<Portfolio> portfolios) {
             try {
-                OptimalPortfolio.getOptimalPortfolio(portfolios);
+                OptimalPortfolio.getOptimalPortfolios(portfolios);
             } catch (Exception ex) {
                 return ex.getMessage();
             }
