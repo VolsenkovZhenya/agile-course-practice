@@ -285,8 +285,6 @@ project(":code/vodopyanov-dmitry/View").name = "vodopyanov-dmitry-View"
 // Volosenkov Evgeny
 include "code/volosenkov-evgeny/Model"
 project(":code/volosenkov-evgeny/Model").name = "volosenkov-evgeny/Model"
-//include "code/volosenkov-evgeny/View"
-//project(":code/volosenkov-evgeny/View").name = "volosenkov-evgeny-View"
 
 // Voronkov Arsenij
 include "code/voronkov-arseny/Model"
