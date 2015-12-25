@@ -4,7 +4,6 @@ import  static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -75,7 +74,7 @@ public class OptimalPortfolioTest {
         @Test
         public void canGetArrayIdOfOptimalPortfolios() {
 
-            assertArrayEquals(tryGetIdOfOptimalPortfoliosWithoutException(portfolios),
+            assertArrayEquals(tryGetIdOptimalPortfoliosWithoutException(portfolios),
                     correctResult);
         }
 
@@ -141,7 +140,7 @@ public class OptimalPortfolioTest {
             }
             return correctResult;
         }
-        private int [] tryGetIdOfOptimalPortfoliosWithoutException(
+        private int [] tryGetIdOptimalPortfoliosWithoutException(
                 final ArrayList<Portfolio> portfolios) {
             try {
                 return OptimalPortfolio.getArrayIdOptimumPortfolios(
@@ -154,40 +153,33 @@ public class OptimalPortfolioTest {
     public static class PortfolioTest {
         @Test
         public void canDetectWhenPortfolioEmpty() {
-            Portfolio portfolioTMP = new Portfolio();
-            assertEquals(portfolioTMP.isEmpty(), true);
+            assertTrue(new Portfolio().isEmpty());
         }
         @Test
         public void canDetectWhenPortfolioNoEmpty() {
-            Portfolio portfolioTMP = arrangePortfolioWhenItNoEmpty();
-            assertEquals(portfolioTMP.isEmpty(), false);
+            assertFalse(arrangePortfolioWhenItNoEmpty().isEmpty());
         }
         @Test
         public void canGetId() {
-            Portfolio portfolioTMP = new Portfolio(new float[]{1.0f}, new float[][]{{0.7f}}, 256);
-            assertEquals(portfolioTMP.getId(), 256);
+            assertEquals(new Portfolio(new float[]{1.0f},
+                    new float[][]{{0.7f}}, 256).getId(), 256);
         }
         @Test
         public void canFindEfficiency() {
-            Portfolio portfolioTMP = arrangePortfolioWhenFindEfficiency();
-            assertEquals(portfolioTMP.getEfficiency(), 0.12f, DELTA);
+            assertEquals(arrangePortfolioWhenFindEfficiency().getEfficiency(), 0.12f, DELTA);
         }
         @Test
         public void canFindRisk() {
-            Portfolio portfolioTMP = arrangePortfolioWhenFindRisk();
-            assertEquals(portfolioTMP.getRisk(), 0.0001f, DELTA);
+            assertEquals(arrangePortfolioWhenFindRisk().getRisk(), 0.0001f, DELTA);
         }
 
         private  Portfolio arrangePortfolioWhenItNoEmpty() {
-            float[] shares = {0.5f};
-            float [][] incomes =  {{0.11f}};
-            return new Portfolio(shares, incomes, 0);
+            return new Portfolio(new float[]{0.5f}, new float[][]{{0.11f}});
         }
 
         private Portfolio arrangePortfolioWhenFindEfficiency() {
-            float[] shares = {0.5f, 0.5f};
-            float [][] incomes =  {{0.11f, 0.13f}, {0.15f, 0.09f}};
-            return new Portfolio(shares, incomes, 256);
+            return new Portfolio(new float[]{0.5f, 0.5f},
+                    new float[][]{{0.11f, 0.13f}, {0.15f, 0.09f}});
         }
 
 
@@ -204,8 +196,8 @@ public class OptimalPortfolioTest {
 
         @Test
         public void canGetExeptionWhenAllPortfoliosInListEmpty() {
-            ArrayList<Portfolio> portfolios = arrangeListWhenAllPortfoliosEmpty();
-            assertEquals(getExceptionMessage(portfolios), "All Portfolios are empty");
+            assertEquals(getExceptionMessage(arrangeListWhenAllPortfoliosEmpty()),
+                    "All Portfolios are empty");
         }
 
 
